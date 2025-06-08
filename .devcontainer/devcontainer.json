@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+    "name": "bootloader",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    // Include docker for testing CI
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "mcu-debug.debug-tracker-vscode", // Required by Cortex-Debug
+                "marus25.cortex-debug",
+                "ms-vscode.cmake-tools",
+                "ms-vscode.cpptools-extension-pack",
+                "streetsidesoftware.code-spell-checker",
+                "xaver.clang-format"
+            ]
+        }
+    },
+    "runArgs": [
+        "--privileged", // Required to access Debugprobe from dev container
+        "--device=/dev/ttyACM0" // Expose Debugprobe UART to dev container
+    ],
+    // TODO: Investigate if it is reasonable to run the dev container as a non-root user.
+    // (See: https://www.robmiles.com/journal/2024/1/18/effortless-debugging-with-your-pico-probe-no-more-sudo)
+    "remoteUser": "root",
+    "postCreateCommand": "sudo chown -R root:root . && git submodule update --init --recursive --depth 1 --single-branch"
+}
