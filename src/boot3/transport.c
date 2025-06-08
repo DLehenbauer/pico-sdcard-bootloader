@@ -85,9 +85,7 @@ bool uf2_exists() {
     FRESULT fr = FR_OK;
 
     if (!pSd->mounted) {
-        led_on();
         fr = f_mount(&pSd->fatfs, pSd->pcName, 1);
-        led_off();
         
         if (fr != FR_OK) {
             pSd->m_Status |= STA_NOINIT;
@@ -112,28 +110,30 @@ bool read_uf2(prog_t* prog, accept_block_cb_t callback) {
         return false;
     }
 
+    bool ok = true;
+
     while (true) {
         struct uf2_block block;
         size_t bytes_read = 0;
 
-        if (f_read(&file, &block, sizeof(block), &bytes_read) != FR_OK) { goto error; }
-
-        if (bytes_read < sizeof(block)) {
-            if (bytes_read == 0) { goto done; }
-            else { goto error; }
+        ok = f_read(&file, &block, sizeof(block), &bytes_read) == FR_OK;
+        if (!ok) {
+            break;
         }
 
-        if (!callback(prog, &block)) { goto error; }
+        if (bytes_read < sizeof(block)) {
+            ok = (bytes_read == 0);
+            break;
+        }
+
+        ok = callback(prog, &block);
+        if (!ok) {
+            break;
+        }
     }
 
-done:
     f_close(&file);
-    f_unlink(FIRMWARE_FILENAME);
-    return true;
-
-error:
-    f_close(&file);
-    return false;
+    return ok;
 }
 
 bool remove_uf2() {
