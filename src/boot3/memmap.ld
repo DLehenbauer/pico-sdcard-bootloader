@@ -23,7 +23,11 @@
 
 MEMORY
 {
-    INCLUDE "pico_flash_region.ld"
+    /* boot_stage2 resides at BOOT2, while our bootloader occupies the last
+      'BOOTLOADER_SIZE' bytes at the end of the flash.
+    */
+    BOOT2(rx) : ORIGIN = 0x10000000, LENGTH = 256
+    FLASH(rx) : ORIGIN = 0x10000000 + PICO_FLASH_SIZE_BYTES - BOOTLOADER_SIZE, LENGTH = BOOTLOADER_SIZE
     RAM(rwx) : ORIGIN =  0x20000000, LENGTH = 256k
     SCRATCH_X(rwx) : ORIGIN = 0x20040000, LENGTH = 4k
     SCRATCH_Y(rwx) : ORIGIN = 0x20041000, LENGTH = 4k
@@ -40,13 +44,13 @@ SECTIONS
 
     .flash_begin : {
         __flash_binary_start = .;
-    } > FLASH
+    } > BOOT2
 
     .boot2 : {
         __boot2_start__ = .;
         KEEP (*(.boot2))
         __boot2_end__ = .;
-    } > FLASH
+    } > BOOT2
 
     ASSERT(__boot2_end__ - __boot2_start__ == 256,
         "ERROR: Pico second stage bootloader must be 256 bytes in size")

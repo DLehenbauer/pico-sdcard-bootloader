@@ -46,6 +46,7 @@ ARG OPENOCD_VERSION="sdk-2.0.0"
 # Useful tools:
 #
 #   minicom
+#   ripgrep
 #   usbutils
 
 # Use unattended mode for 'apt'
@@ -76,7 +77,9 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     minicom \
     ninja-build \
     pkg-config \
-    texinfo
+    ripgrep \
+    texinfo \
+    usbutils
 
 # Clean apt cache and temporary files
 RUN apt-get clean && \

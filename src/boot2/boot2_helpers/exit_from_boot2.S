@@ -18,7 +18,10 @@ check_return:
     beq vector_into_flash
     bx r0
 vector_into_flash:
-    ldr r0, =(XIP_BASE + 0x100)
+    // MODIFIED: (XIP_BASE + PICO_FLASH_SIZE_BYTES - BOOTLOADER_SIZE) places VTOR at the vector
+    //           table for the stage 3 bootloader instead of the main program at (XIP_BASE + 0x100).
+ 
+    ldr r0, =(XIP_BASE + PICO_FLASH_SIZE_BYTES - BOOTLOADER_SIZE)
     ldr r1, =(PPB_BASE + M0PLUS_VTOR_OFFSET)
     str r0, [r1]
     ldmia r0, {r0, r1}

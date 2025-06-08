@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Firmware",
+            "cwd": "${workspaceRoot}",
+            "executable": "${command:cmake.launchTargetPath}",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            // Change 'gpbPath' to "arm-none-eabi-gdb" if not using "gdb-multiarch".
+            "gdbPath" : "gdb-multiarch",
+            "device": "RP2040",
+            "configFiles": [
+                // Change interface to "interface/picoprobe.cfg" if using older Picoprobe firmware.
+                "interface/cmsis-dap.cfg",
+                "target/rp2040.cfg"
+            ],
+            // Reduce the adapter speed if 'openocd' reports the following error:
+            // 
+            //    Error: Failed to connect multidrop rp2040.dap0
+            //
+            // Picoprobe documentation uses 5000 Hz:
+            // https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf
+            //
+            // Note: previous top speed was 31249 Hz.  Reduced to 20833 Hz for Debugprobe v2.2.2.
+            "serverArgs": ["-c", "adapter speed 20833"],
+            "svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
+            "runToEntryPoint": "main",
+            // Work around for stopping at main on restart
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ],
+            "preLaunchTask": "CMake: build"
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+/**
+ * BSD Zero Clause License (SPDX: 0BSD)
+ * 
+ * Permission to use, copy, modify, and/or distribute this software for any purpose
+ * with or without fee is hereby granted.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+ * REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+ * INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+ * OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+ * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
+ * THIS SOFTWARE.
+ */
+
+#pragma once
+
+void led_on();
+void led_off();
+void led_toggle();
+
+typedef enum diag_code_s {
+    DIAG_BOOT3_ENTERED = 0,
+    FATAL_WATCHDOG_WITHOUT_FIRMWARE = 1,
+    DIAG_RUNNING_FIRMWARE = 2,
+    DIAG_NO_FIRMWARE = 3,
+    FATAL_FLASH_FAILED = 4,
+    FATAL_INVALID_UF2 = 5,
+    FATAL_VECTOR_TABLE_BAD = 6,
+    DIAG_DELETE_FAILED = 7,
+    DIAG_SKIPPED_PROGRAMMING = 8,
+} diag_code_t;
+
+void diag_init(void);
+void diag(diag_code_t code);
+void fatal(diag_code_t code);
