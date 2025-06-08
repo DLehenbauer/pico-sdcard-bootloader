@@ -45,6 +45,26 @@
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
+        },
+        {
+            "name": "test_base",
+            "hidden": true,
+            "inherits": "base",
+            "binaryDir": "${sourceDir}/build/test",
+            "cacheVariables": {
+                "PICO_PLATFORM": "host",
+                "PICO_NO_HARDWARE": "1",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_FLAGS_DEBUG": "-ggdb -fno-omit-frame-pointer -fno-inline",
+                "CMAKE_CXX_FLAGS_DEBUG": "-ggdb -fno-omit-frame-pointer -fno-inline",
+                "CMAKE_EXE_LINKER_FLAGS_DEBUG": "-O0"
+            }
+        },
+        {
+            "name": "test",
+            "inherits": "test_base",
+            "displayName": "Test",
+            "description": "Unit tests for Linux host"
         }
     ]
 }
