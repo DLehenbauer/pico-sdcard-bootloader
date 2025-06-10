@@ -65,6 +65,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
     gcc \
     gcc-arm-none-eabi \
     gdb-multiarch \
+    git-lfs \
     gperf \
     lcov \
     libftdi-dev \
@@ -84,6 +85,9 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
 # Clean apt cache and temporary files
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Install git LFS (Large File Storage)
+RUN git lfs install
 
 # Fix warnings from Cortex-Debug extension
 # (See https://forums.raspberrypi.com/viewtopic.php?t=333146)
