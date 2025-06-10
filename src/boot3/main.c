@@ -35,7 +35,7 @@
 
 // During pass 1 (validation), this callback is invoked for each block in the UF2
 // file that is valid and matches the expected family ID.
-bool validate_uf2_callback(prog_t* prog, const struct uf2_block* block) {
+static bool validate_uf2_callback(prog_t* prog, const struct uf2_block* block) {
     // Blink the LED to show progress during large files.
     if (prog->num_blocks_accepted % 128 == 0) {
         led_toggle();
@@ -55,7 +55,7 @@ bool validate_uf2_callback(prog_t* prog, const struct uf2_block* block) {
 
 // During pass 2 (writing), this callback is invoked for each block in the UF2
 // file that is valid and matches the expected family ID.
-bool write_uf2_callback(prog_t* prog, const struct uf2_block* block) {
+static bool write_uf2_callback(prog_t* prog, const struct uf2_block* block) {
     // Blink the LED rapidly to show progress during large files.
     if (prog->num_blocks_accepted % 16 == 0) {
         led_toggle();
@@ -84,7 +84,7 @@ bool write_uf2_callback(prog_t* prog, const struct uf2_block* block) {
     return true;
 }
 
-void update_firmware() {
+static void update_firmware() {
     prog_t prog;
     prog_init(&prog);
     prog.accept_block = validate_uf2_callback;
@@ -163,7 +163,9 @@ done:
     led_off();
 }
 
-void run_firmware() {
+static void run_firmware() {
+    diag(DIAG_ENTERING_FIRMWARE);
+
     // We use the watchdog to reset the cores and peripherals to get back to
     // a known state before running the firmware.  The 'main()' function detects
     // if we are entering from the watchdog and jumps to the vector table.
@@ -176,8 +178,6 @@ void run_firmware() {
 }
 
 int main() {
-    diag_init();
-
     // To ensure that all cores and peripherals are in their initial state, our
     // stage 3 bootloader uses the watchdog to reset the device when it is ready
     // to run the firmware.
@@ -188,6 +188,7 @@ int main() {
 
         // Double check that we have a valid vector table before jumping.
         if (!check_vector_table(vector_table)) {
+            diag_init();
             fatal(FATAL_WATCHDOG_WITHOUT_FIRMWARE);
         }
 
@@ -196,6 +197,7 @@ int main() {
         vector_into_flash(VECTOR_TABLE_ADDR);
     }
 
+    diag_init();
     transport_init();
 
     // Poll for either a new firmware file or a valid vector table.

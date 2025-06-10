@@ -66,5 +66,11 @@
             "displayName": "Test",
             "description": "Unit tests for Linux host"
         }
+    ],
+    "buildPresets": [
+        {
+            "name": "rp2040_release",
+            "configurePreset": "rp2040_release"
+        }
     ]
 }

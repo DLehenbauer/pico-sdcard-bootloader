@@ -52,27 +52,21 @@ typedef struct diag_message_s {
     const uint8_t* pattern;
 } diag_message_t;
 
-typedef const uint8_t morse_pattern_t[8];
-//static const morse_pattern_t morse_b = { 3, 1, 1, 1, 0 };
+typedef const uint8_t morse_pattern_t[];
 static const morse_pattern_t morse_d = { 3, 1, 1, 0 };
 static const morse_pattern_t morse_e = { 1, 0 };
 static const morse_pattern_t morse_f = { 1, 1, 3, 1, 0 };
 static const morse_pattern_t morse_i = { 1, 1, 0 };
-//static const morse_pattern_t morse_m = { 3, 3, 0 };
 static const morse_pattern_t morse_n = { 3, 1, 0 };
-static const morse_pattern_t morse_r = { 1, 3, 1, 0 };
 static const morse_pattern_t morse_s = { 3, 3, 3, 0 };
-static const morse_pattern_t morse_v = { 1, 1, 1, 3, 0 };
 static const morse_pattern_t morse_w = { 1, 3, 3, 0 };
 
 const diag_message_t messages[] = {
-    /* DIAG_BOOT3_ENTERED: */               { .message = "Entered", .is_fatal = false, .pattern = morse_e },
-    /* FATAL_WATCHDOG_WITHOUT_FIRMWARE: */  { .message = "Watchdog without firmware", .is_fatal = true, .pattern = morse_w },
-    /* DIAG_RUNNING_FIRMWARE: */            { .message = "Running firmware", .is_fatal = false, .pattern = morse_r },
+    /* DIAG_ENTERING_FIRMWARE: */           { .message = "Entering firmware", .is_fatal = false, .pattern = morse_e },
+    /* FATAL_WATCHDOG_WITHOUT_FIRMWARE: */  { .message = "Watchdog bad firmware", .is_fatal = true, .pattern = morse_w },
     /* DIAG_NO_FIRMWARE: */                 { .message = "No firmware", .is_fatal = false, .pattern = morse_n },
     /* FATAL_FLASH_FAILED: */               { .message = "Flash failed", .is_fatal = true, .pattern = morse_f },
     /* FATAL_INVALID_UF2: */                { .message = "Invalid UF2", .is_fatal = true, .pattern = morse_i },
-    /* FATAL_VECTOR_TABLE_BAD: */           { .message = "Vector table bad", .is_fatal = true, .pattern = morse_v },
     /* DIAG_DELETE_FAILED: */               { .message = "Delete failed", .is_fatal = false, .pattern = morse_d },
     /* DIAG_SKIPPED_PROGRAMMING: */         { .message = "Skipped programming", .is_fatal = false, .pattern = morse_s },
 };
@@ -87,8 +81,6 @@ void diag_init() {
     #ifdef BOOTLOADER_USE_UART
     stdio_uart_init_full(BOOTLOADER_UART_INSTANCE, BOOTLOADER_UART_BAUD_RATE, BOOTLOADER_UART_TX_PIN, BOOTLOADER_UART_RX_PIN);
     #endif
-
-    diag(DIAG_BOOT3_ENTERED);
 }
 
 void led_on() {

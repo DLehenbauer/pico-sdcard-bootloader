@@ -20,15 +20,13 @@ void led_off();
 void led_toggle();
 
 typedef enum diag_code_s {
-    DIAG_BOOT3_ENTERED = 0,
+    DIAG_ENTERING_FIRMWARE = 0,
     FATAL_WATCHDOG_WITHOUT_FIRMWARE = 1,
-    DIAG_RUNNING_FIRMWARE = 2,
-    DIAG_NO_FIRMWARE = 3,
-    FATAL_FLASH_FAILED = 4,
-    FATAL_INVALID_UF2 = 5,
-    FATAL_VECTOR_TABLE_BAD = 6,
-    DIAG_DELETE_FAILED = 7,
-    DIAG_SKIPPED_PROGRAMMING = 8,
+    DIAG_NO_FIRMWARE = 2,
+    FATAL_FLASH_FAILED = 3,
+    FATAL_INVALID_UF2 = 4,
+    DIAG_DELETE_FAILED = 5,
+    DIAG_SKIPPED_PROGRAMMING = 6,
 } diag_code_t;
 
 void diag_init(void);
