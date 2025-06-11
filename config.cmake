@@ -12,7 +12,16 @@ set(BOOTLOADER_USE_LED true)
 # Enable UART logging
 set(BOOTLOADER_USE_UART true)
 
-# SPI configuration for SD card
+#  Pico Pin | GPIO      | Adapter Pin | Description               
+# ----------|-----------|-------------|---------------------------
+#  21       | 16 (RX)   | DO          | Data out (from SD card)   
+#  22       | 17        | CS / SS     | Chip select               
+#  24       | 18 (SCK)  | SCK         | Serial clock              
+#  25       | 19 (TX)   | DI          | Data in (to SD card)      
+#  23       | GND       | GND / VSS   | Ground                    
+#  36       | 3V3 (Out) | 3V3 / VCC   | Power                     
+#  29       | 22 (In)   | CD or DAT3  | Card detect (if used)     
+
 set(BOOTLOADER_SD_SPI_INSTANCE spi0)
 set(BOOTLOADER_SD_SPI_SCK_PIN 18)
 set(BOOTLOADER_SD_SPI_TX_PIN 19)
