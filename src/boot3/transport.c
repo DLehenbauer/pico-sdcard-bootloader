@@ -25,14 +25,12 @@
 #define FIRMWARE_FILENAME (PC_NAME BOOTLOADER_FIRMWARE_FILENAME)
 
 static spi_t spis[] = {{
-    .hw_inst    = BOOTLOADER_SD_SPI_INSTANCE,
+    .hw_inst    = __CONCAT(spi, BOOTLOADER_SD_SPI),
     .miso_gpio  = BOOTLOADER_SD_SPI_RX_PIN,
     .mosi_gpio  = BOOTLOADER_SD_SPI_TX_PIN,
     .sck_gpio   = BOOTLOADER_SD_SPI_SCK_PIN,
     .baud_rate  = BOOTLOADER_SD_BAUD_RATE
 }};
-
-// ext/no-OS-FatFS-SD-SPI-RPi-Pico/FatFs_SPI/sd_driver/hw_config.h
 
 static sd_card_t sd_cards[] = {{
     .pcName = PC_NAME,

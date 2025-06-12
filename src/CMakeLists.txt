@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-set(PICO_PLATFORM rp2040)
-set(PICO_BOARD pico)
-
 # Initialize the SDK
 pico_sdk_init()
 

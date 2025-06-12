@@ -2,7 +2,7 @@ if (NOT PICO_PLATFORM STREQUAL "host")
     # Set this before including pico_sdk_import.cmake
     set(PICO_BOARD pico)
 
-    # This is the 
+    # Name of the '.uf2' firmware file to write to flash.
     set(BOOTLOADER_FIRMWARE_FILENAME "firmware.uf2")
 
     # Pico flash size is 2MB (normally set by SDK for supported boards)
@@ -16,6 +16,10 @@ if (NOT PICO_PLATFORM STREQUAL "host")
 
     # Enable UART logging
     set(BOOTLOADER_USE_UART true)
+    set(BOOTLOADER_UART 0)
+    set(BOOTLOADER_UART_TX_PIN 0)
+    set(BOOTLOADER_UART_RX_PIN 1)
+    set(BOOTLOADER_UART_BAUD_RATE 115200)
 
     #  Pico Pin | GPIO      | Adapter Pin | Description               
     # ----------|-----------|-------------|---------------------------
@@ -27,21 +31,13 @@ if (NOT PICO_PLATFORM STREQUAL "host")
     #  36       | 3V3 (Out) | 3V3 / VCC   | Power                     
     #  29       | 22 (In)   | CD or DAT3  | Card detect (if used)     
 
-    set(BOOTLOADER_SD_SPI_INSTANCE spi0)
+    set(BOOTLOADER_SD_SPI 0)
     set(BOOTLOADER_SD_SPI_SCK_PIN 18)
     set(BOOTLOADER_SD_SPI_TX_PIN 19)
     set(BOOTLOADER_SD_SPI_RX_PIN 16)
     set(BOOTLOADER_SD_SPI_CSN_PIN 17)
     set(BOOTLOADER_SD_DETECT_PIN 22)
     set(BOOTLOADER_SD_USE_DETECT false)
-
-    # set(BOOTLOADER_SD_SPI_INSTANCE spi1)
-    # set(BOOTLOADER_SD_SPI_SCK_PIN 14)
-    # set(BOOTLOADER_SD_SPI_TX_PIN 11)
-    # set(BOOTLOADER_SD_SPI_RX_PIN 12)
-    # set(BOOTLOADER_SD_SPI_CSN_PIN 9)
-    # set(BOOTLOADER_SD_DETECT_PIN 8)
-    # set(BOOTLOADER_SD_USE_DETECT true)
 
     # SD card SPI baud rate: 12.5MHz
     set(BOOTLOADER_SD_BAUD_RATE 12500000)
