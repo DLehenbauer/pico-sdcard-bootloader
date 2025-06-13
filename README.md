@@ -4,14 +4,14 @@ A bootloader for the Raspberry Pi Pico (RP2040) that allows updating firmware fr
 
 ## Overview
 
-This project allows the firmware of the RP2040 microcontroller to be flashed from a microSD card.
-It is useful for designs where the USB port is inaccessible, otherwise occupied, or it is inconvenient to require a laptop to update firmware.
+This bootloader enables RP2040 firmware updates using a microSD card instead of USB.
+Useful for designs where the USB port is inaccessible, otherwise occupied, or it is inconvenient to use a laptop to update firmware.
 
 ### Key Features
 
-- Uses standard .uf2 files
-- Does not require a custom linker script
-- 2-pass approach validates firmware integrity before flashing
+- Uses standard .uf2 files for firmware updates
+- No custom linker script required
+- Validates firmware integrity before flashing
 
 ## Quick Start
 
@@ -19,15 +19,15 @@ It is useful for designs where the USB port is inaccessible, otherwise occupied,
 
 Connect a 3.3V-compatible microSD adapter to your Raspberry Pi Pico:
 
-| Pico Pin | GPIO      | Adapter Pin | Description               |
-|----------|-----------|-------------|---------------------------|
-| 21       | 16 (RX)   | DO          | Data out (from SD card)   |
-| 22       | 17        | CS / SS     | Chip select               |
-| 24       | 18 (SCK)  | SCK         | Serial clock              |
-| 25       | 19 (TX)   | DI          | Data in (to SD card)      |
-| 23       | GND       | GND / VSS   | Ground                    |
-| 36       | 3V3 (Out) | 3V3 / VCC   | Power                     |
-| 29       | 22 (In)   | CD or DAT3  | Card detect (if used)     |
+| Pico Pin | GPIO      | Adapter Pin | Description             |
+|----------|-----------|-------------|-------------------------|
+| 21       | 16 (RX)   | DO          | Data out (from card)    |
+| 22       | 17        | CS/SS       | Chip select             |
+| 24       | 18 (SCK)  | SCK         | Serial clock            |
+| 25       | 19 (TX)   | DI          | Data in (to card)       |
+| 23       | GND       | GND/VSS     | Ground                  |
+| 36       | 3V3 (Out) | 3V3/VCC     | Power                   |
+| 29       | 22 (In)   | CD/DAT3     | Card detect (optional)  |
 
 ### 2. Install Bootloader (One-Time Setup)
 
@@ -51,19 +51,17 @@ The normal [RP2040 boot process](https://vanhunteradams.com/Pico/Bootloader/Boot
 
 This project modifies this process by:
 
-1. The ROM bootloader runs the modified stage 2 bootloader
+1. The ROM bootloader runs the stage 2 bootloader as normal
 2. A modified stage 2 bootloader jumps to a new stage 3 bootloader that resides in the last 64kB of flash
 3. The stage 3 bootloader checks for an inserted microSD card with a 'firmware.uf2' file
 4. If found, it validates the UF2 file and writes it to flash.
-5. If no update is needed, it runs the existing firmware
+5. The stage 3 bootloader jumps to the normal program area.
 
-Additionally, the bootloader preserves itself during firmware updates by:
-2. Skipping the stage 2 bootloader included in the .uf2 file.
-3. Validating that the new firmware does not overwrite the last 64kB where the stage 3 bootloader resides.
+The bootloader preserves itself during firmware updates by skipping the normal stage 2 bootloader included in the .uf2 file.  It also checks that the new firmware does not overwrite the last 64kB where the stage 3 bootloader resides.
 
 ## Customizing
 
-SPI pins, firmware filename, and diagnostic output are configurable in [config.cmake](config.cmake).
+The target board, SPI pins, firmware filename, and diagnostic output are configurable in [config.cmake](config.cmake).
 
 ## Related Projects
 
