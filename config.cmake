@@ -15,7 +15,7 @@ if (NOT PICO_PLATFORM STREQUAL "host")
     set(BOOTLOADER_USE_LED true)
 
     # Enable UART logging
-    set(BOOTLOADER_USE_UART true)
+    set(BOOTLOADER_USE_UART false)
     set(BOOTLOADER_UART 0)
     set(BOOTLOADER_UART_TX_PIN 0)
     set(BOOTLOADER_UART_RX_PIN 1)
