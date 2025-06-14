@@ -14,10 +14,6 @@
 // Project
 #include "diag.h"
 
-#ifndef BOOTLOADER_LED_PIN
-#define BOOTLOADER_LED_PIN PICO_DEFAULT_LED_PIN
-#endif
-
 typedef struct diag_message_s {
     const char* message;
     bool is_fatal;
