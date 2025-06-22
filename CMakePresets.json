@@ -14,7 +14,7 @@
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
                 "CMAKE_C_STANDARD": "11",
                 "CMAKE_CXX_STANDARD": "17",
-                "PICO_SDK_PATH": "/opt/pico-sdk"
+                "PICO_SDK_PATH": "$env{PICO_SDK_PATH}"
             }
         },
         {
@@ -23,7 +23,7 @@
             "inherits": "base",
             "cacheVariables": {
                 "PICO_PLATFORM": "rp2040",
-                "CMAKE_TOOLCHAIN_FILE": "/opt/pico-sdk/cmake/preload/toolchains/pico_arm_cortex_m0plus_gcc.cmake"
+                "CMAKE_TOOLCHAIN_FILE": "$env{PICO_SDK_PATH}/cmake/preload/toolchains/pico_arm_cortex_m0plus_gcc.cmake"
             }
         },        
         {
