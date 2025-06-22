@@ -21,6 +21,7 @@
             ]
         }
     },
+    // You may need to run `sudo modprobe cdc_acm` on Ubuntu to have access to the ttyACM0 device.
     "runArgs": [
         "--privileged", // Required to access Debugprobe from dev container
         "--device=/dev/ttyACM0" // Expose Debugprobe UART to dev container
