@@ -11,12 +11,12 @@ Useful for designs where the USB port is inaccessible, otherwise occupied, or it
 
 - Uses standard .uf2 files for firmware updates
 - No custom linker script required
-- Validates firmware integrity before flashing
+- Sanity checks firmware before flashing
 
 ## Quick Start
 
 Note: the prebuilt binaries only work with the original Raspberry Pi Pico board.  If using a different board,
-you will need to modify [config.cmake](config.cmake) and build bootloader.uf2 locally.
+you may need to modify [config.cmake](config.cmake) and build bootloader.uf2 locally.
 
 ### 1. Connect a SD adapter
 
@@ -52,7 +52,7 @@ The normal [RP2040 boot process](https://vanhunteradams.com/Pico/Bootloader/Boot
 1. The ROM bootloader runs loads the stage 2 bootloader from the first block of flash.
 2. The stage 2 bootloader configures the flash for XIP (execute in place) and jumps to the main program.
 
-This project modifies this process by:
+This bootloader adds a third stage to the RP2040 boot sequence that checks for firmware updates on an SD card and flashes them when detected:
 
 1. The ROM bootloader runs the stage 2 bootloader as normal
 2. A modified stage 2 bootloader jumps to a new stage 3 bootloader that resides in the last 64kB of flash
@@ -60,15 +60,13 @@ This project modifies this process by:
 4. If found, it validates the UF2 file and writes it to flash.
 5. The stage 3 bootloader jumps to the normal program area.
 
-The bootloader preserves itself during firmware updates by skipping the normal stage 2 bootloader included in the .uf2 file.  It also checks that the new firmware does not overwrite the last 64kB where the stage 3 bootloader resides.
+During firmware updates, the bootloader preserves itself by restoring its modified stage 2 bootloader and protecting the last 64kB of flash where it resides.
 
-## Tips and Caveats
+## Important Notes
 
-When working with this bootloader, keep these important points in mind:
+* **USB/SWD Flashing Overwrites Bootloader**: The bootloader only preserves itself during SD card updates. If you flash the Pico using USB or an SWD debugger (like Picoprobe or Debug Probe), it will overwrite the custom bootloader. To restore SD card update functionality, reinstall [bootloader.uf2](dist/bootloader.uf2).
 
-* **Preserving the bootloader**: If you flash the Pico using USB or an SWD debugger (like Picoprobe or Debug Probe), it will overwrite the custom stage 2 bootloader. To restore SD card update functionality, you will need to reinstall [bootloader.uf2](dist/bootloader.uf2).
-
-* **Write-protected UF2 files**: If the 'firmware.uf2' file on your SD card is write-protected, the bootloader will not be able to delete it after flashing. This can be useful when updating multiple devices with the same card, but may cause slower startup times if you leave the SD card inserted. This happens because the bootloader will repeatedly check if the UF2 file differs from the installed firmware.
+* **Read-Only Firmware File**: If the 'firmware.uf2' file is read-only, the bootloader cannot delete it after flashing. This is useful for updating multiple devices with the same card but may slow startup times if the card remains inserted, as the bootloader checks the UF2 file against installed firmware on each boot.
 
 ## Customizing
 
