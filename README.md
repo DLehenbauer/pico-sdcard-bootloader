@@ -49,18 +49,18 @@ Connect a 3.3V-compatible SD adapter to your Raspberry Pi Pico:
 
 The normal [RP2040 boot process](https://vanhunteradams.com/Pico/Bootloader/Boot_sequence.html) is as follows:
 
-1. The ROM bootloader runs loads the stage 2 bootloader from the first block of flash.
-2. The stage 2 bootloader configures the flash for XIP (execute in place) and jumps to the main program.
+1. The stage 1 bootloader (in ROM) loads and runs the stage 2 bootloader from the first block of flash
+2. The stage 2 bootloader configures the flash for XIP (execute in place) and jumps to the main program
 
 This bootloader adds a third stage to the RP2040 boot sequence that checks for firmware updates on an SD card and flashes them when detected:
 
-1. The ROM bootloader runs the stage 2 bootloader as normal
+1. The stage 1 bootloader (in ROM) loads and runs the stage 2 bootloader as normal
 2. A modified stage 2 bootloader jumps to a new stage 3 bootloader that resides in the last 64kB of flash
 3. The stage 3 bootloader checks for an inserted SD card with a 'firmware.uf2' file
 4. If found, it validates the UF2 file and writes it to flash.
 5. The stage 3 bootloader jumps to the normal program area.
 
-During firmware updates, the bootloader preserves itself by restoring its modified stage 2 bootloader and protecting the last 64kB of flash where it resides.
+During firmware updates, the bootloader preserves itself by restoring its modified stage 2 bootloader and protecting the last 64kB of flash where the stage 3 bootloader resides.
 
 ## Important Notes
 
