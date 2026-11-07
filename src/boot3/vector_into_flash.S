@@ -12,10 +12,12 @@ pico_default_asm_setup
 .section .text
 
 .global vector_into_flash
+.type vector_into_flash, %function
 
 // MODIFIED: This is the original 'vector_into_flash' subroutine extracted from 'exit_from_boot2.S'.
 //           This invoked by the stage 3 bootloader to start the main program.
 
+.thumb_func
 vector_into_flash:
     ldr r0, =(XIP_BASE + 0x100)
     ldr r1, =(PPB_BASE + M0PLUS_VTOR_OFFSET)

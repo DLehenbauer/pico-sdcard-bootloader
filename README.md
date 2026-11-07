@@ -15,8 +15,9 @@ Useful for designs where the USB port is inaccessible, otherwise occupied, or it
 
 ## Quick Start
 
-Note: the prebuilt binaries only work with the original Raspberry Pi Pico board.  If using a different board,
-you may need to modify [config.cmake](config.cmake) and build bootloader.uf2 locally.
+The prebuilt binaries target the original Raspberry Pi Pico. For another board,
+edit [config.cmake](config.cmake) and run `./build.sh` to build
+`dist/bootloader.uf2` with the selected configuration.
 
 ### 1. Connect a SD adapter
 
@@ -89,3 +90,5 @@ Modify [config.cmake](config.cmake) to configure the following:
 ## License
 
 This project is licensed under the [0BSD license](https://opensource.org/licenses/0BSD), except where noted in source files or [NOTICE.md](NOTICE.md).
+
+[![CI](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml/badge.svg)](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml)

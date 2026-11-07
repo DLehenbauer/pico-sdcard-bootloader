@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.12)
 
 # Must include 'config.cmake' before 'pico_sdk_import.cmake'
 if (NOT PICO_PLATFORM STREQUAL "host")
-    include("config.cmake")
+    set(BOOTLOADER_CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/config.cmake"
+        CACHE FILEPATH "Bootloader board and transport configuration")
+    include("${BOOTLOADER_CONFIG_FILE}")
 endif()
 
 # Must include the Pico SDK before 'project()'
