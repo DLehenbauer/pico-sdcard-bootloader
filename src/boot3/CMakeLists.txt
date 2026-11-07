@@ -35,6 +35,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
+    PICO_FLASH_SIZE_BYTES=${PICO_FLASH_SIZE_BYTES}
     PICO_XOSC_STARTUP_DELAY_MULTIPLIER=64  # Increase XOSC startup delay
     NO_PICO_LED                            # Prevent FatFs_SPI from using the LED
     BOOTLOADER_SIZE=${BOOTLOADER_SIZE}
