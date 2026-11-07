@@ -1,7 +1,5 @@
 # Pico SD Card Bootloader
 
-[![CI](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml/badge.svg)](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml)
-
 A bootloader for the Raspberry Pi Pico (RP2040) that allows updating firmware from a SD card.
 
 ## Overview
@@ -92,3 +90,5 @@ Modify [config.cmake](config.cmake) to configure the following:
 ## License
 
 This project is licensed under the [0BSD license](https://opensource.org/licenses/0BSD), except where noted in source files or [NOTICE.md](NOTICE.md).
+
+[![CI](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml/badge.svg)](https://github.com/DLehenbauer/pico-sdcard-bootloader/actions/workflows/ci.yml)
