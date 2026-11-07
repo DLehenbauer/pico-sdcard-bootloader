@@ -9,7 +9,10 @@ set -e
 # Resolve the project directory independently of the caller.
 cd -- "$(dirname -- "$0")"
 
-# Build the production image without discarding other configurations.
+# Clean only the production tree, preserving host and debug builds.
+rm -rf -- build/rp2040_release
+
+# Reconfigure the distributed example with the selected board configuration.
 cmake --preset rp2040_release "-DBOOTLOADER_CONFIG_FILE=$PWD/config.cmake"
 cmake --build --preset rp2040_release
 
