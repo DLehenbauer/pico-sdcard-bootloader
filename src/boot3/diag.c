@@ -26,7 +26,7 @@ static const morse_pattern_t morse_e = { 1, 0 };
 static const morse_pattern_t morse_f = { 1, 1, 3, 1, 0 };
 static const morse_pattern_t morse_i = { 1, 1, 0 };
 static const morse_pattern_t morse_n = { 3, 1, 0 };
-static const morse_pattern_t morse_s = { 3, 3, 3, 0 };
+static const morse_pattern_t morse_s = { 1, 1, 1, 0 };
 static const morse_pattern_t morse_w = { 1, 3, 3, 0 };
 
 const diag_message_t messages[] = {
